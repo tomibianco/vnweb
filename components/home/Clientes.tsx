@@ -10,7 +10,7 @@ const clientes = [
 
 export default function Clientes() {
   return (
-    <section aria-labelledby="clientes-heading" className="py-20 md:py-28">
+    <section aria-labelledby="clientes-heading" className="bg-secondary py-20 md:py-28">
       <div className="mx-auto max-w-[1240px] px-5 md:px-8">
         <h2
           id="clientes-heading"
