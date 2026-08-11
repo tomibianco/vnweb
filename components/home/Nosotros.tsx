@@ -6,12 +6,13 @@ export default function Nosotros() {
       <div className="mx-auto grid max-w-[1240px] items-center gap-12 px-5 md:px-8 lg:grid-cols-2 lg:gap-20">
         <div className="relative aspect-[4/3] overflow-hidden rounded-3xl">
           <Image
-            src="/productos/.webp"
-            alt="Faena en el mar donde se utilizan chalecos salvavidas Vidanautica"
+            src="/hero/chaleco-banner.webp"
+            alt="Persona cosiendo con máquina un chaleco salvavidas con el logo de Vidanautica"
             fill
             sizes="(max-width: 1024px) 100vw, 560px"
             className="object-cover"
           />
+          <div className="absolute inset-0 bg-brand-600/25 mix-blend-color" />
         </div>
 
         <div>
