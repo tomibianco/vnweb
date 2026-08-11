@@ -1,7 +1,8 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useRef } from "react";
 import { useFormStatus } from "react-dom";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { enviarContacto, type ContactoState } from "@/app/actions/contacto";
 import ProductoChips from "@/components/form/ProductoChips";
 
@@ -35,8 +36,30 @@ function SubmitButton() {
   );
 }
 
+// Sitekey publica del plan gratuito de Web3Forms (no es un secreto).
+const HCAPTCHA_SITEKEY = "50b2fe65-b00b-4b9e-ad62-3ba471098be2";
+
 export default function ContactForm() {
   const [state, formAction] = useActionState(enviarContacto, initialState);
+  const captchaRef = useRef<HCaptcha>(null);
+  const tokenRef = useRef<HTMLInputElement>(null);
+
+  // El token va a un input no controlado: nada visual depende de el, asi que
+  // se escribe directo en el DOM y se evita un render por cada verificacion.
+  const setToken = (token: string) => {
+    if (tokenRef.current) tokenRef.current.value = token;
+  };
+
+  // El token de hCaptcha es de un solo uso. Si el envio a Web3Forms fallo se
+  // reinicia el widget, o el siguiente intento seria rechazado. Los errores de
+  // campo se validan antes de gastarlo, por eso no disparan el reinicio (no
+  // obligamos al usuario a rehacer el captcha por un email mal escrito).
+  useEffect(() => {
+    if (state.status === "error" && !state.fieldErrors) {
+      captchaRef.current?.resetCaptcha();
+      setToken("");
+    }
+  }, [state]);
 
   return (
     <form action={formAction} className="space-y-6" noValidate>
@@ -121,6 +144,29 @@ export default function ContactForm() {
       <div className="hidden" aria-hidden="true">
         <label htmlFor="botcheck">No completar este campo</label>
         <input id="botcheck" name="botcheck" type="text" tabIndex={-1} autoComplete="off" />
+      </div>
+
+      {/*
+        El script de hCaptcha suele inyectar su propio textarea llamado
+        "h-captcha-response" dentro del form. Usamos un nombre distinto para no
+        depender de ese detalle ni arriesgar dos campos homonimos: la Server
+        Action lee este campo y lo reenvia a Web3Forms con el nombre que su
+        API espera.
+      */}
+      <div>
+        <HCaptcha
+          ref={captchaRef}
+          sitekey={HCAPTCHA_SITEKEY}
+          reCaptchaCompat={false}
+          languageOverride="es"
+          onVerify={setToken}
+          onExpire={() => setToken("")}
+          onError={() => setToken("")}
+        />
+        <input ref={tokenRef} type="hidden" name="captcha_token" defaultValue="" />
+        {state.fieldErrors?.captcha && (
+          <p className="mt-1 text-sm text-destructive">{state.fieldErrors.captcha}</p>
+        )}
       </div>
 
       {state.status === "error" && state.message && (
