@@ -3,11 +3,11 @@ const clientes = [
   { slug: "cooke", nombre: "Cooke Aquaculture" },
   { slug: "foodcorp", nombre: "Foodcorp" },
   { slug: "cermaq", nombre: "Cermaq" },
-  { slug: "cgs", nombre: "GCS Seguridad Privada" },
+  { slug: "camanchaca", nombre: "Camanchaca" },
   { slug: "hain", nombre: "Hain" },
   { slug: "patagonia", nombre: "Patagonia Náutica" },
   { slug: "puerto-deportivo", nombre: "Puerto Deportivo" },
-  { slug: "camanchaca", nombre: "Camanchaca" },
+  { slug: "cgs", nombre: "GCS Seguridad Privada" },
   { slug: "nautisport", nombre: "Nautisport" },
   { slug: "tecnomar", nombre: "Tecnomar" },
 ];
