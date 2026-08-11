@@ -18,10 +18,10 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <Clientes />
       <Nosotros />
       <Pilares />
       <ProductosGrid />
-      <Clientes />
       <Faq />
       <Contacto />
     </>

@@ -1,16 +1,20 @@
 const clientes = [
-  { slug: "cgs", nombre: "GCS Seguridad Privada" },
+  { slug: "invermar", nombre: "Invermar" },
   { slug: "cooke", nombre: "Cooke Aquaculture" },
   { slug: "foodcorp", nombre: "Foodcorp" },
+  { slug: "cermaq", nombre: "Cermaq" },
+  { slug: "cgs", nombre: "GCS Seguridad Privada" },
   { slug: "hain", nombre: "Hain" },
-  { slug: "nautisport", nombre: "Nautisport" },
   { slug: "patagonia", nombre: "Patagonia Náutica" },
   { slug: "puerto-deportivo", nombre: "Puerto Deportivo" },
+  { slug: "camanchaca", nombre: "Camanchaca" },
+  { slug: "nautisport", nombre: "Nautisport" },
+  { slug: "tecnomar", nombre: "Tecnomar" },
 ];
 
 export default function Clientes() {
   return (
-    <section aria-labelledby="clientes-heading" className="py-20 md:py-28">
+    <section aria-labelledby="clientes-heading" className="bg-secondary py-20 md:py-28">
       <div className="mx-auto max-w-[1240px] px-5 md:px-8">
         <h2
           id="clientes-heading"
