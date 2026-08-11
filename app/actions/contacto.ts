@@ -27,6 +27,7 @@ export async function enviarContacto(
   const email = String(formData.get("email") ?? "").trim();
   const mensaje = String(formData.get("mensaje") ?? "").trim();
   const productos = formData.getAll("productos").map(String);
+  const captchaToken = String(formData.get("captcha_token") ?? "").trim();
 
   const fieldErrors: Record<string, string> = {};
   if (!nombre) fieldErrors.nombre = "Ingresa tu nombre.";
@@ -34,6 +35,11 @@ export async function enviarContacto(
   if (!EMAIL_RE.test(email)) fieldErrors.email = "Ingresa un correo válido.";
   if (!mensaje) fieldErrors.mensaje = "Cuéntanos qué necesitas.";
   if (mensaje.length > 3000) fieldErrors.mensaje = "El mensaje es demasiado largo.";
+  // Web3Forms verifica el token contra hCaptcha; aca solo comprobamos que
+  // exista para no gastar una llamada ni dar un error generico al usuario.
+  if (!captchaToken) {
+    fieldErrors.captcha = "Completa la verificación de seguridad.";
+  }
 
   if (Object.keys(fieldErrors).length > 0) {
     return { status: "error", message: "Revisa los campos marcados.", fieldErrors };
@@ -56,6 +62,7 @@ export async function enviarContacto(
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         access_key: accessKey,
+        "h-captcha-response": captchaToken,
         subject: `Nueva cotización desde vidanautica.cl — ${nombre}`,
         from_name: "Web Vidanautica",
         to: site.email,
