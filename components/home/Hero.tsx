@@ -5,7 +5,7 @@ import { buttonVariants } from "@/components/ui/button";
 import HeroChaleco from "@/components/hero/HeroChaleco";
 
 const credenciales = [
-  "30+ años fabricando en Chile",
+  "30+ años en el mercado",
   "Aprobados por la Armada / DGTM",
   "Diseños personalizados",
   "Fabricación nacional",
@@ -39,7 +39,7 @@ export default function Hero() {
               Diseñados para proteger, hechos para durar
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-brand-100">
-              +30 años fabricando chalecos salvavidas certificados en Chile para la
+              30+ años fabricando chalecos salvavidas certificados en Chile para la
               industria salmonera, pesca, acuicultura y fuerzas armadas.
             </p>
 

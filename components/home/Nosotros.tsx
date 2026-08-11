@@ -6,7 +6,7 @@ export default function Nosotros() {
       <div className="mx-auto grid max-w-[1240px] items-center gap-12 px-5 md:px-8 lg:grid-cols-2 lg:gap-20">
         <div className="relative aspect-[4/3] overflow-hidden rounded-3xl">
           <Image
-            src="/hero/fondo-mar.webp"
+            src="/productos/.webp"
             alt="Faena en el mar donde se utilizan chalecos salvavidas Vidanautica"
             fill
             sizes="(max-width: 1024px) 100vw, 560px"
