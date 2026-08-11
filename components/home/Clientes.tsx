@@ -3,9 +3,13 @@ const clientes = [
   { slug: "cooke", nombre: "Cooke Aquaculture" },
   { slug: "foodcorp", nombre: "Foodcorp" },
   { slug: "hain", nombre: "Hain" },
-  { slug: "nautisport", nombre: "Nautisport" },
   { slug: "patagonia", nombre: "Patagonia Náutica" },
   { slug: "puerto-deportivo", nombre: "Puerto Deportivo" },
+  { slug: "invermar", nombre: "Invermar" },
+  { slug: "cermaq", nombre: "Cermaq" },
+  { slug: "camanchaca", nombre: "Camanchaca" },
+  { slug: "nautisport", nombre: "Nautisport" },
+  { slug: "tecnomar", nombre: "Tecnomar" },
 ];
 
 export default function Clientes() {
