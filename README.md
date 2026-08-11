@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Vidanautica
 
-## Getting Started
+Web corporativa de Vidanautica, fabricante chileno de chalecos salvavidas certificados para pesca,
+acuicultura, salmonicultura, fuerzas armadas y turismo. Next.js (App Router) + TypeScript +
+Tailwind CSS v4, desplegado en Vercel.
 
-First, run the development server:
+## Desarrollo
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abrir [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Variables de entorno
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Copiar `.env.example` a `.env.local` y completar:
 
-## Learn More
+- `WEB3FORMS_ACCESS_KEY`: access key gratuita de [web3forms.com](https://web3forms.com), registrada
+  con `ventas@vidanautica.cl`. Sin esta variable, el formulario de contacto muestra un error y no
+  envía correos.
+- `NEXT_PUBLIC_SITE_URL`: URL base del sitio en producción (usada por `metadataBase`, el sitemap y
+  los datos estructurados JSON-LD).
 
-To learn more about Next.js, take a look at the following resources:
+## Contenido
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Los textos y datos de los 7 productos viven en `lib/productos.ts` — es la fuente única que
+alimenta la navegación, el footer, el hub de productos, cada página de producto, el selector del
+formulario y el sitemap. Los datos de contacto y redes sociales están en `lib/site.ts`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Comandos
 
-## Deploy on Vercel
+```bash
+pnpm dev      # servidor de desarrollo
+pnpm build    # build de producción
+pnpm start    # sirve el build de producción
+pnpm lint     # ESLint
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deploy
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Pensado para desplegar en [Vercel](https://vercel.com/new). Configurar las variables de entorno
+del punto anterior en el proyecto de Vercel antes del primer deploy.
