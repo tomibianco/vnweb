@@ -39,8 +39,8 @@ export default function Hero() {
               Diseñados para proteger, hechos para durar
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-brand-100">
-              30+ años fabricando chalecos salvavidas certificados en Chile para la
-              industria salmonera, pesca, acuicultura y fuerzas armadas.
+              Fabricamos y diseñamos chalecos salvavidas certificados en Chile,
+              para la industria, fuerzas armadas, turismo, tiendas deportivas y escuelas náuticas.
             </p>
 
             <div className="mt-10 flex flex-wrap gap-4">

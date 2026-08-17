@@ -30,7 +30,9 @@ export default function Relacionados({ slug }: { slug: string }) {
               </div>
               <div className="p-5">
                 <h3 className="font-heading text-base font-bold text-brand-900">{p.nombre}</h3>
-                <p className="mt-1 text-sm text-muted-foreground">Tipo {p.tipo}</p>
+                {p.tipo && (
+                  <p className="mt-1 text-sm text-muted-foreground">Tipo {p.tipo}</p>
+                )}
               </div>
             </Link>
           ))}

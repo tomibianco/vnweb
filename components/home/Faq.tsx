@@ -4,23 +4,39 @@ import { ChevronDown } from "lucide-react";
 const faqs = [
   {
     q: "¿Los chalecos Vidanautica están certificados?",
-    a: "Sí. Los chalecos salvavidas Vidanautica están aprobados por la Armada de Chile y la Dirección General del Territorio Marítimo (DGTM).",
+    a: "Sí. Nuestros salvavidas están aprobados por la Armada de Chile y la Dirección General del Territorio Marítimo (DGTM). Trabajamos para entregar equipos de seguridad confiables y adecuados para las distintas condiciones de uso.",
   },
   {
     q: "¿Qué diferencia hay entre un chaleco tipo II y uno tipo III?",
-    a: "Un chaleco tipo II está pensado para navegación costera y ofrece mayor flotabilidad con menos libertad de movimiento, mientras que un chaleco tipo III prioriza la maniobrabilidad para deportes náuticos, kayak y actividades en bahías o piscinas, manteniendo una flotabilidad certificada de 200 kilos.",
+    a: "La principal diferencia está en su diseño, flotabilidad y uso previsto. Los chalecos Tipo II exigen una mayor resistencia, flotabilidad (70N) y visibilidad (colores visibles y cinta reflectante), están orientados a situaciones donde se requiere mayor capacidad de apoyo y protección en el agua. Mientras que los Tipo III están enfocados en actividades deportivas o de bajo riesgo, con menores exigencias de resistencia y flotabilidad (50N). La elección depende de las condiciones y características de cada operación.",
   },
   {
-    q: "¿Se pueden personalizar con el logo de mi empresa?",
-    a: "Sí. Vidanautica ofrece diseños personalizados y variedad de colores para pedidos de empresas de pesca, acuicultura, salmonicultura, fuerzas armadas y turismo.",
+    q: "¿Se pueden personalizar e incluir el logo de mi empresa?",
+    a: "Sí. Podemos personalizar los chalecos incorporando logos, nombres de empresas, embarcaciones y otros elementos de identificación. También podemos realizar modificaciones o incorporación de elementos como bolsillos, cierres, arnés, etc., según las necesidades de cada cliente.",
   },
   {
-    q: "¿Venden al por mayor a empresas salmoneras y pesqueras?",
-    a: "Sí. Vidanautica trabaja directamente con empresas de la industria salmonera, pesquera y de acuicultura, entregando cotizaciones según volumen y modelo requerido.",
+    q: "¿Pueden desarrollar un chaleco adaptado a las necesidades de mi empresa?",
+    a: "Sí. Una de nuestras principales características es trabajar directamente con nuestros clientes para entender cómo y dónde se utilizará el chaleco. A partir de eso, podemos adaptar distintos elementos del diseño para mejorar la comodidad, movilidad y seguridad durante el trabajo.",
+  },
+  {
+    q: "¿Venden al por mayor?",
+    a: "Sí. Trabajamos principalmente con empresas e instituciones y podemos fabricar pedidos de distintas cantidades. Para pedidos mayores podemos ofrecer condiciones y precios según el volumen solicitado.",
   },
   {
     q: "¿Dónde se fabrican los chalecos Vidanautica?",
-    a: "Los chalecos salvavidas Vidanautica se fabrican en Chile, con materiales de alta resistencia como tela Oxford 300/300 impermeable y espuma de celda cerrada EPE.",
+    a: "Nuestros chalecos son diseñados y fabricados en Chile, en nuestro taller ubicado en la Región de O'Higgins. Esto nos permite mantener un control directo sobre el proceso de fabricación y responder de manera flexible a los requerimientos de nuestros clientes.",
+  },
+  {
+    q: "¿Cómo sé qué tipo de chaleco necesito?",
+    a: "Depende principalmente de la actividad, las condiciones de navegación y las características de la operación. Si no estás seguro de qué modelo necesitas, podemos orientarte para encontrar una alternativa adecuada según el uso que tendrá el chaleco.",
+  },
+  {
+    q: "¿Cuánto demora la fabricación de un pedido?",
+    a: "El plazo depende de la cantidad solicitada, el modelo, el nivel de personalización requerido y los pedidos que se encuentre procesando el taller. Al momento de cotizar, informamos un plazo estimado de fabricación y coordinamos la entrega según las necesidades del cliente.",
+  },
+  {
+    q: "¿Realizan envíos a todo Chile?",
+    a: "Sí. Coordinamos despachos a distintas regiones de Chile, utilizando alternativas de transporte según el destino, volumen y características de cada pedido.",
   },
 ];
 

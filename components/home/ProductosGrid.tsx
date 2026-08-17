@@ -31,9 +31,11 @@ export default function ProductosGrid() {
                   sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 280px"
                   className="object-contain p-6 transition-transform duration-500 group-hover:scale-105"
                 />
-                <span className="absolute top-3 left-3 rounded-full bg-brand-900/80 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm">
-                  Tipo {p.tipo}
-                </span>
+                {p.tipo && (
+                  <span className="absolute top-3 left-3 rounded-full bg-brand-900/80 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm">
+                    Tipo {p.tipo}
+                  </span>
+                )}
               </div>
               <div className="flex items-center justify-between gap-2 p-5">
                 <h3 className="font-heading text-base font-bold text-brand-900">{p.nombre}</h3>

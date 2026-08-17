@@ -55,9 +55,9 @@ export default async function ProductoPage({
     brand: { "@type": "Brand", name: site.name },
     manufacturer: { "@type": "Organization", name: site.name },
     material: "Tela Oxford 300/300, espuma de celda cerrada EPE",
-    additionalProperty: [
-      { "@type": "PropertyValue", name: "Tipo de chaleco", value: producto.tipo },
-    ],
+    additionalProperty: producto.tipo
+      ? [{ "@type": "PropertyValue", name: "Tipo de chaleco", value: producto.tipo }]
+      : undefined,
   };
 
   const breadcrumbJsonLd = {
@@ -92,10 +92,14 @@ export default async function ProductoPage({
         <div className="mt-8 grid gap-12 lg:grid-cols-2 lg:gap-16">
           <Galeria imagenes={producto.imagenes} />
 
-          <div>
-            <span className="inline-flex items-center rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700">
-              Tipo {producto.tipo}
-            </span>
+          {/* min-w-0: sin esto la columna se estira al ancho minimo de la tabla
+              de tallas y desborda la pagina en mobile. */}
+          <div className="min-w-0">
+            {producto.tipo && (
+              <span className="inline-flex items-center rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700">
+                Tipo {producto.tipo}
+              </span>
+            )}
             <h1 className="mt-4 font-heading text-3xl font-bold text-brand-900 md:text-4xl">
               {producto.h1}
             </h1>
