@@ -2,6 +2,10 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+/* Dispositivos con mouse: el efecto 3D del hero depende del puntero, asi que
+   en pantallas tactiles se sustituye por una foto estatica. */
+@custom-variant con-mouse (@media (hover: hover) and (pointer: fine));
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
