@@ -4,7 +4,8 @@ export type Producto = {
   slug: string;
   nombre: string;
   h1: string;
-  tipo: TipoChaleco;
+  /* Opcional: no todos los modelos se clasifican por tipo (perro, rescate). */
+  tipo?: TipoChaleco;
   titleSeo: string;
   metaDescription: string;
   intro: string;
@@ -53,37 +54,38 @@ export const productos: Producto[] = [
     valorForm: "SALVAVIDAS DEPORTIVO",
   },
   {
-    slug: "chaleco-para-nino",
-    nombre: "Chaleco para Niños",
-    h1: "Chaleco Salvavidas Deportivo para Niños",
+    slug: "chaleco-para-kayak",
+    nombre: "Chaleco para Kayak",
+    h1: "Chaleco Salvavidas para Kayak",
     tipo: "III",
-    titleSeo: "Chaleco para Niño - Vidanautica",
+    titleSeo: "Chaleco para Kayak - Vidanautica",
     metaDescription:
-      "Chaleco salvavidas deportivo tipo III para niños, aprobado por la Armada de Chile. Flotabilidad de 70 kilos, tallas S, M, L y Y.",
+      "Chaleco salvavidas para kayak tipo III, aprobado por la Armada. Alta maniobrabilidad y ajuste horizontal y vertical.",
     intro:
-      "Chalecos salvavidas para Niños tipo III, para deportes naúticos, bahías y piscinas. Aprobados por la Armada.",
+      "Chalecos salvavidas tipo III, para deportes que requieren alta maniobrabilidad. Aprobados por la Armada.",
     grupos: [
       {
         items: [
           "Resistentes a hidrocarburos (bencina, parafina, y otros solventes).",
           "Tela Oxford 300/300 impermeable y con filtro UV.",
           "Cinta reflectante.",
+          "Cierre diente de perro N°10.",
           "Espuma de celda cerrada EPE de espesor 10 mm c/u.",
-          "4 láminas en parte delantera y 1 lámina en espalda.",
-          "Trae broches y cintas de 25 mm.",
-          "Tiene una flotabilidad de 70 kilos.",
+          "4 láminas en parte delantera, 3 láminas en parte lateral y 2 láminas en espalda.",
+          "Cintas y ajustes de 25 mm.",
           "Incluye silbatos.",
-          "Tallas: S, M, L, Y.",
           "Diseños personalizados.",
-          "Variedad de colores.",
+          "Se puede ajustar en forma horizontal y vertical.",
         ],
       },
     ],
     imagenes: [
-      { src: "/productos/nino-1.webp", alt: "Chaleco salvavidas Vidanautica para niños, vista frontal" },
-      { src: "/productos/nino-2.webp", alt: "Chaleco salvavidas Vidanautica para niños, en uso" },
+      { src: "/productos/kayak-1.webp", alt: "Chaleco salvavidas para kayak Vidanautica, vista frontal" },
+      { src: "/productos/kayak-2.webp", alt: "Chaleco salvavidas para kayak Vidanautica, detalle de cierre" },
+      { src: "/productos/kayak-3.webp", alt: "Chaleco salvavidas para kayak Vidanautica en uso" },
+      { src: "/productos/kayak-espalda.webp", alt: "Chaleco salvavidas para kayak Vidanautica, vista de espalda" },
     ],
-    valorForm: "SALVAVIDAS NIÑO",
+    valorForm: "SALVAVIDAS KAYAK",
   },
   {
     slug: "chaleco-aqua",
@@ -151,44 +153,9 @@ export const productos: Producto[] = [
     valorForm: "SALVAVIDAS COSTERO",
   },
   {
-    slug: "chaleco-para-kayak",
-    nombre: "Chaleco para Kayak",
-    h1: "Chaleco Salvavidas para Kayak",
-    tipo: "III",
-    titleSeo: "Chaleco para Kayak - Vidanautica",
-    metaDescription:
-      "Chaleco salvavidas para kayak tipo III, aprobado por la Armada. Alta maniobrabilidad y ajuste horizontal y vertical.",
-    intro:
-      "Chalecos salvavidas tipo III, para deportes que requieren alta maniobrabilidad. Aprobados por la Armada.",
-    grupos: [
-      {
-        items: [
-          "Resistentes a hidrocarburos (bencina, parafina, y otros solventes).",
-          "Tela Oxford 300/300 impermeable y con filtro UV.",
-          "Cinta reflectante.",
-          "Cierre diente de perro N°10.",
-          "Espuma de celda cerrada EPE de espesor 10 mm c/u.",
-          "4 láminas en parte delantera, 3 láminas en parte lateral y 2 láminas en espalda.",
-          "Cintas y ajustes de 25 mm.",
-          "Incluye silbatos.",
-          "Diseños personalizados.",
-          "Se puede ajustar en forma horizontal y vertical.",
-        ],
-      },
-    ],
-    imagenes: [
-      { src: "/productos/kayak-1.webp", alt: "Chaleco salvavidas para kayak Vidanautica, vista frontal" },
-      { src: "/productos/kayak-2.webp", alt: "Chaleco salvavidas para kayak Vidanautica, detalle de cierre" },
-      { src: "/productos/kayak-3.webp", alt: "Chaleco salvavidas para kayak Vidanautica en uso" },
-      { src: "/productos/kayak-espalda.webp", alt: "Chaleco salvavidas para kayak Vidanautica, vista de espalda" },
-    ],
-    valorForm: "SALVAVIDAS KAYAK",
-  },
-  {
     slug: "chalecos-rescate",
     nombre: "Chaleco de Rescate",
     h1: "Chaleco Salvavidas Rescate",
-    tipo: "V",
     titleSeo: "Chalecos Rescate - Vidanautica",
     metaDescription:
       "Chalecos de rescate de fabricación nacional aprobados por la DGTM, y modelos importados FIRSTWATCH aprobados por la Guardia Costera de EEUU.",
@@ -226,10 +193,42 @@ export const productos: Producto[] = [
     valorForm: "SALVAVIDAS RESCATE",
   },
   {
+    slug: "chaleco-para-nino",
+    nombre: "Chaleco para Niños",
+    h1: "Chaleco Salvavidas Deportivo para Niños",
+    tipo: "III",
+    titleSeo: "Chaleco para Niño - Vidanautica",
+    metaDescription:
+      "Chaleco salvavidas deportivo tipo III para niños, aprobado por la Armada de Chile. Flotabilidad de 70 kilos, tallas S, M, L y Y.",
+    intro:
+      "Chalecos salvavidas para Niños tipo III, para deportes naúticos, bahías y piscinas. Aprobados por la Armada.",
+    grupos: [
+      {
+        items: [
+          "Resistentes a hidrocarburos (bencina, parafina, y otros solventes).",
+          "Tela Oxford 300/300 impermeable y con filtro UV.",
+          "Cinta reflectante.",
+          "Espuma de celda cerrada EPE de espesor 10 mm c/u.",
+          "4 láminas en parte delantera y 1 lámina en espalda.",
+          "Trae broches y cintas de 25 mm.",
+          "Tiene una flotabilidad de 70 kilos.",
+          "Incluye silbatos.",
+          "Tallas: S, M, L, Y.",
+          "Diseños personalizados.",
+          "Variedad de colores.",
+        ],
+      },
+    ],
+    imagenes: [
+      { src: "/productos/nino-1.webp", alt: "Chaleco salvavidas Vidanautica para niños, vista frontal" },
+      { src: "/productos/nino-2.webp", alt: "Chaleco salvavidas Vidanautica para niños, en uso" },
+    ],
+    valorForm: "SALVAVIDAS NIÑO",
+  },
+  {
     slug: "chaleco-para-perro",
     nombre: "Chaleco para Perros",
     h1: "Chaleco Salvavidas para Perros",
-    tipo: "III",
     titleSeo: "Chaleco para Perro - Vidanautica",
     metaDescription:
       "Chaleco salvavidas para perros, fabricado en tela Oxford impermeable con espuma de celda cerrada. Tallas S, M, L y XL.",
