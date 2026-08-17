@@ -10,7 +10,7 @@ import Contacto from "@/components/home/Contacto";
 export const metadata: Metadata = {
   title: "Vidanautica | Chalecos salvavidas certificados en Chile",
   description:
-    "Fabricamos chalecos salvavidas certificados y personalizados hace más de 30 años para pesca, acuicultura, salmonicultura, fuerzas armadas y turismo.",
+    "Fabricamos y diseñamos chalecos salvavidas certificados en Chile, para la industria, fuerzas armadas, turismo, tiendas deportivas y escuelas náuticas.",
   alternates: { canonical: "/" },
 };
 

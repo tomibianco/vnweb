@@ -20,14 +20,15 @@ export default function Nosotros() {
             ¿Quiénes Somos?
           </p>
           <h2 id="nosotros-heading" className="mt-3 font-heading text-3xl font-bold text-brand-900 md:text-4xl">
-            Tres décadas protegiendo a quienes trabajan en el mar
+            Seguridad diseñada para cada desafío
           </h2>
           <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
-            Con tres décadas de experiencia, en Vidanautica nos especializamos en crear chalecos
-            salvavidas personalizados y certificados. Ofrecemos soluciones innovadoras diseñadas
-            para cumplir con las necesidades específicas de clientes en pesca, acuicultura,
-            fuerzas armadas y turismo. Nuestra misión es brindar seguridad y comodidad,
-            garantizando la excelencia en cada producto.
+            Con tres décadas de experiencia, en Vidanautica nos especializamos en el diseño,
+            fabricación y certificación de chalecos salvavidas personalizados.
+            Trabajamos junto a nuestros clientes para desarrollar soluciones que respondan a las necesidades reales de cada operación,
+            incorporando mejoras en diseño, funcionalidad y comodidad.
+            Nuestra experiencia nos ha permitido trabajar con empresas de pesca, salmonicultura, fuerzas armadas, escuelas náuticas y turismo,
+            ofreciendo productos innovadores y de alta calidad, donde la seguridad y la adaptación a cada usuario son nuestra prioridad.
           </p>
         </div>
       </div>
