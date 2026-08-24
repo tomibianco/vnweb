@@ -7,7 +7,11 @@ export type ContactoState = {
   status: "idle" | "error";
   message?: string;
   fieldErrors?: Record<string, string>;
+  /** TEMPORAL: motivo crudo del rechazo de Web3Forms, para diagnosticar en produccion. */
+  debug?: string;
 };
+
+type Web3FormsRespuesta = { success?: boolean; message?: string };
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -45,7 +49,7 @@ export async function enviarContacto(
     return { status: "error", message: "Revisa los campos marcados.", fieldErrors };
   }
 
-  const accessKey = process.env.WEB3FORMS_ACCESS_KEY;
+  const accessKey = process.env.WEB3FORMS_ACCESS_KEY?.trim();
   if (!accessKey) {
     return {
       status: "error",
@@ -56,6 +60,10 @@ export async function enviarContacto(
   }
 
   let ok = false;
+  // Web3Forms explica el rechazo en `message` ("Invalid Access Key",
+  // "Invalid Captcha", ...). Sin capturarlo, todos los fallos colapsan en un
+  // unico mensaje generico y no hay forma de diagnosticar produccion.
+  let motivo = "";
   try {
     const res = await fetch("https://api.web3forms.com/submit", {
       method: "POST",
@@ -73,16 +81,30 @@ export async function enviarContacto(
         mensaje,
       }),
     });
-    const data = await res.json();
+    // Se lee como texto antes de parsear: si Web3Forms devuelve HTML (error de
+    // gateway, bloqueo por dominio) `res.json()` lanzaria y perderiamos la pista.
+    const cuerpo = await res.text();
+    let data: Web3FormsRespuesta | null = null;
+    try {
+      data = JSON.parse(cuerpo) as Web3FormsRespuesta;
+    } catch {
+      motivo = `respuesta no JSON (HTTP ${res.status}): ${cuerpo.slice(0, 200)}`;
+    }
     ok = res.ok && data?.success === true;
-  } catch {
-    ok = false;
+    if (!ok && !motivo) {
+      motivo = `HTTP ${res.status}: ${data?.message ?? cuerpo.slice(0, 200)}`;
+    }
+  } catch (error) {
+    motivo = `la peticion fallo: ${error instanceof Error ? error.message : String(error)}`;
   }
 
   if (!ok) {
+    // Queda en los Runtime Logs de Vercel aunque no se muestre en pantalla.
+    console.error("[contacto] Web3Forms rechazo el envio ->", motivo);
     return {
       status: "error",
       message: "No pudimos enviar tu solicitud. Intenta nuevamente o escríbenos a " + site.email,
+      debug: motivo,
     };
   }
 

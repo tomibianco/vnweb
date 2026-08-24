@@ -175,6 +175,15 @@ export default function ContactForm() {
         </p>
       )}
 
+      {/* TEMPORAL: motivo crudo del rechazo, para diagnosticar en produccion.
+          Quitar este bloque (y el campo `debug` de la Server Action) en cuanto
+          se identifique la causa. */}
+      {state.debug && (
+        <p className="rounded-lg bg-brand-50 px-3 py-2 font-mono text-xs break-words text-brand-700">
+          diagnostico: {state.debug}
+        </p>
+      )}
+
       <SubmitButton />
     </form>
   );
