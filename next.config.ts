@@ -6,8 +6,6 @@ import { PHASE_DEVELOPMENT_SERVER } from "next/constants";
 // defensa en profundidad. Se usa 'unsafe-inline' en script-src porque Next
 // inyecta scripts inline (hidratacion, JSON-LD) y usar nonces obligaria a
 // renderizado dinamico via middleware, perdiendo el prerender estatico.
-// hCaptcha necesita cargar script, estilos, iframe y hacer fetch a su dominio.
-const HCAPTCHA = "https://hcaptcha.com https://*.hcaptcha.com";
 // Vercel Analytics se sirve same-origin desde /_vercel/insights/, pero en
 // algunos entornos cae al CDN, asi que se permite explicitamente.
 const VERCEL_ANALYTICS = "https://va.vercel-scripts.com";
@@ -19,12 +17,12 @@ const VERCEL_ANALYTICS = "https://va.vercel-scripts.com";
 function buildCsp(isDev: boolean) {
   return [
     "default-src 'self'",
-    `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""} ${HCAPTCHA} ${VERCEL_ANALYTICS}`,
-    `style-src 'self' 'unsafe-inline' ${HCAPTCHA}`,
+    `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""} ${VERCEL_ANALYTICS}`,
+    "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: blob:",
     "font-src 'self'",
-    `connect-src 'self' ${HCAPTCHA} ${VERCEL_ANALYTICS}`,
-    `frame-src ${HCAPTCHA}`,
+    `connect-src 'self' ${VERCEL_ANALYTICS}`,
+    "frame-src 'none'",
     "worker-src 'self' blob:",
     "frame-ancestors 'none'",
     "base-uri 'self'",
