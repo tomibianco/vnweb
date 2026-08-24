@@ -1,13 +1,12 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
-import { useFormStatus } from "react-dom";
-import { enviarContacto, type ContactoState } from "@/app/actions/contacto";
+import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { site } from "@/lib/site";
 import ProductoChips from "@/components/form/ProductoChips";
 
 // Mejora progresiva: si se llega con ?producto=... (desde el CTA de una
-// pagina de producto), marca el chip correspondiente. No bloquea el
-// renderizado del formulario si no hay JS.
+// pagina de producto), marca el chip correspondiente.
 function PreseleccionarProducto() {
   useEffect(() => {
     const producto = new URLSearchParams(window.location.search).get("producto");
@@ -20,25 +19,105 @@ function PreseleccionarProducto() {
   return null;
 }
 
-const initialState: ContactoState = { status: "idle" };
+// El plan gratuito de Web3Forms rechaza los envios desde servidor
+// ("Use our API in client side... Pro plan is required"), asi que la peticion
+// tiene que salir del navegador y la clave viaja al cliente. No es un secreto
+// en este modelo: solo habilita enviar correo a la direccion registrada con
+// ella. El control antispam correspondiente es la lista de dominios permitidos
+// en el panel de Web3Forms, que aqui si aplica porque la peticion lleva Origin.
+const ACCESS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
 
-function SubmitButton() {
-  const { pending } = useFormStatus();
-  return (
-    <button
-      type="submit"
-      disabled={pending}
-      className="inline-flex w-full items-center justify-center rounded-full bg-brand-600 px-6 py-3 text-base font-medium text-white transition-colors hover:bg-brand-500 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
-    >
-      {pending ? "Enviando..." : "Enviar"}
-    </button>
-  );
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function validar(datos: FormData) {
+  const errores: Record<string, string> = {};
+  const texto = (campo: string) => String(datos.get(campo) ?? "").trim();
+
+  if (!texto("nombre")) errores.nombre = "Ingresa tu nombre.";
+  if (texto("telefono").length < 8) errores.telefono = "Ingresa un teléfono válido.";
+  if (!EMAIL_RE.test(texto("email"))) errores.email = "Ingresa un correo válido.";
+  if (!texto("mensaje")) errores.mensaje = "Cuéntanos qué necesitas.";
+  else if (texto("mensaje").length > 3000) errores.mensaje = "El mensaje es demasiado largo.";
+
+  return errores;
 }
 
+const CLASE_CAMPO =
+  "w-full rounded-xl border border-border bg-white px-4 py-2.5 text-brand-900 outline-none focus:border-brand-500 focus:ring-3 focus:ring-ring/30";
+
 export default function ContactForm() {
-  const [state, formAction] = useActionState(enviarContacto, initialState);
+  const router = useRouter();
+  const formRef = useRef<HTMLFormElement>(null);
+  const [enviando, setEnviando] = useState(false);
+  const [error, setError] = useState("");
+  const [erroresCampo, setErroresCampo] = useState<Record<string, string>>({});
+
+  async function enviar(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const datos = new FormData(event.currentTarget);
+
+    // Honeypot: si un bot completo el campo oculto se simula exito para no
+    // revelar la trampa, sin llegar a enviar nada.
+    if (String(datos.get("botcheck") ?? "").trim() !== "") {
+      router.push("/confirmacion/");
+      return;
+    }
+
+    const errores = validar(datos);
+    setErroresCampo(errores);
+    if (Object.keys(errores).length > 0) {
+      setError("Revisa los campos marcados.");
+      return;
+    }
+
+    if (!ACCESS_KEY) {
+      setError(
+        `El formulario aún no está conectado. Escríbenos directamente a ${site.email}`
+      );
+      return;
+    }
+
+    setError("");
+    setEnviando(true);
+
+    const productos = datos.getAll("productos").map(String);
+    const nombre = String(datos.get("nombre"));
+
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          access_key: ACCESS_KEY,
+          subject: `Nueva cotización desde vidanautica.cl — ${nombre}`,
+          from_name: "Web Vidanautica",
+          nombre,
+          telefono: String(datos.get("telefono")),
+          email: String(datos.get("email")),
+          "Modelo(s) de interés": productos.length ? productos.join(", ") : "No especifica",
+          mensaje: String(datos.get("mensaje")),
+        }),
+      });
+      const data: { success?: boolean; message?: string } = await res.json();
+
+      if (!data.success) {
+        // Queda en la consola del navegador para diagnosticar sin exponer
+        // detalles de la API a quien rellena el formulario.
+        console.error("[contacto] Web3Forms:", res.status, data.message);
+        throw new Error(data.message);
+      }
+
+      formRef.current?.reset();
+      router.push("/confirmacion/");
+    } catch (fallo) {
+      console.error("[contacto] fallo el envio:", fallo);
+      setError(`No pudimos enviar tu solicitud. Intenta nuevamente o escríbenos a ${site.email}`);
+      setEnviando(false);
+    }
+  }
+
   return (
-    <form action={formAction} className="space-y-6" noValidate>
+    <form ref={formRef} onSubmit={enviar} className="space-y-6" noValidate>
       <PreseleccionarProducto />
       <div className="grid gap-6 sm:grid-cols-2">
         <div>
@@ -50,11 +129,11 @@ export default function ContactForm() {
             name="nombre"
             type="text"
             required
-            className="w-full rounded-xl border border-border bg-white px-4 py-2.5 text-brand-900 outline-none focus:border-brand-500 focus:ring-3 focus:ring-ring/30"
-            aria-invalid={Boolean(state.fieldErrors?.nombre)}
+            className={CLASE_CAMPO}
+            aria-invalid={Boolean(erroresCampo.nombre)}
           />
-          {state.fieldErrors?.nombre && (
-            <p className="mt-1 text-sm text-destructive">{state.fieldErrors.nombre}</p>
+          {erroresCampo.nombre && (
+            <p className="mt-1 text-sm text-destructive">{erroresCampo.nombre}</p>
           )}
         </div>
 
@@ -69,11 +148,11 @@ export default function ContactForm() {
             defaultValue="+56"
             maxLength={12}
             required
-            className="w-full rounded-xl border border-border bg-white px-4 py-2.5 text-brand-900 outline-none focus:border-brand-500 focus:ring-3 focus:ring-ring/30"
-            aria-invalid={Boolean(state.fieldErrors?.telefono)}
+            className={CLASE_CAMPO}
+            aria-invalid={Boolean(erroresCampo.telefono)}
           />
-          {state.fieldErrors?.telefono && (
-            <p className="mt-1 text-sm text-destructive">{state.fieldErrors.telefono}</p>
+          {erroresCampo.telefono && (
+            <p className="mt-1 text-sm text-destructive">{erroresCampo.telefono}</p>
           )}
         </div>
       </div>
@@ -88,11 +167,11 @@ export default function ContactForm() {
           type="email"
           required
           spellCheck={false}
-          className="w-full rounded-xl border border-border bg-white px-4 py-2.5 text-brand-900 outline-none focus:border-brand-500 focus:ring-3 focus:ring-ring/30"
-          aria-invalid={Boolean(state.fieldErrors?.email)}
+          className={CLASE_CAMPO}
+          aria-invalid={Boolean(erroresCampo.email)}
         />
-        {state.fieldErrors?.email && (
-          <p className="mt-1 text-sm text-destructive">{state.fieldErrors.email}</p>
+        {erroresCampo.email && (
+          <p className="mt-1 text-sm text-destructive">{erroresCampo.email}</p>
         )}
       </div>
 
@@ -108,11 +187,11 @@ export default function ContactForm() {
           rows={5}
           maxLength={3000}
           required
-          className="w-full rounded-xl border border-border bg-white px-4 py-2.5 text-brand-900 outline-none focus:border-brand-500 focus:ring-3 focus:ring-ring/30"
-          aria-invalid={Boolean(state.fieldErrors?.mensaje)}
+          className={CLASE_CAMPO}
+          aria-invalid={Boolean(erroresCampo.mensaje)}
         />
-        {state.fieldErrors?.mensaje && (
-          <p className="mt-1 text-sm text-destructive">{state.fieldErrors.mensaje}</p>
+        {erroresCampo.mensaje && (
+          <p className="mt-1 text-sm text-destructive">{erroresCampo.mensaje}</p>
         )}
       </div>
 
@@ -122,22 +201,19 @@ export default function ContactForm() {
         <input id="botcheck" name="botcheck" type="text" tabIndex={-1} autoComplete="off" />
       </div>
 
-      {state.status === "error" && state.message && (
+      {error && (
         <p role="alert" className="text-sm text-destructive">
-          {state.message}
+          {error}
         </p>
       )}
 
-      {/* TEMPORAL: motivo crudo del rechazo, para diagnosticar en produccion.
-          Quitar este bloque (y el campo `debug` de la Server Action) en cuanto
-          se identifique la causa. */}
-      {state.debug && (
-        <p className="rounded-lg bg-brand-50 px-3 py-2 font-mono text-xs break-words text-brand-700">
-          diagnostico: {state.debug}
-        </p>
-      )}
-
-      <SubmitButton />
+      <button
+        type="submit"
+        disabled={enviando}
+        className="inline-flex w-full items-center justify-center rounded-full bg-brand-600 px-6 py-3 text-base font-medium text-white transition-colors hover:bg-brand-500 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+      >
+        {enviando ? "Enviando..." : "Enviar"}
+      </button>
     </form>
   );
 }
