@@ -9,6 +9,9 @@ import { PHASE_DEVELOPMENT_SERVER } from "next/constants";
 // Vercel Analytics se sirve same-origin desde /_vercel/insights/, pero en
 // algunos entornos cae al CDN, asi que se permite explicitamente.
 const VERCEL_ANALYTICS = "https://va.vercel-scripts.com";
+// El formulario envia directo a Web3Forms desde el navegador: su plan
+// gratuito no admite peticiones desde servidor.
+const WEB3FORMS = "https://api.web3forms.com";
 
 // React en modo desarrollo usa eval() para reconstruir stacktraces. En
 // produccion nunca lo hace, por eso 'unsafe-eval' se concede solo en la fase
@@ -21,7 +24,7 @@ function buildCsp(isDev: boolean) {
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: blob:",
     "font-src 'self'",
-    `connect-src 'self' ${VERCEL_ANALYTICS}`,
+    `connect-src 'self' ${VERCEL_ANALYTICS} ${WEB3FORMS}`,
     "frame-src 'none'",
     "worker-src 'self' blob:",
     "frame-ancestors 'none'",
